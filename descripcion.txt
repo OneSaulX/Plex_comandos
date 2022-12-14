@@ -1,0 +1,59 @@
+--------------------------------
+## Actualiza las "depedencias del sistema"
+
+apt-get upgrade -y && apt-get update
+
+--------------------------------
+## Instala rclone 
+
+curl https://rclone.org/install.sh | sudo bash
+
+-------------------------------
+## Instalar fuse
+
+apt-get install fuse
+
+-------------------------------
+## Nos abre la CLI de rclone
+
+rclone config
+
+-------------------------------
+## Nos crea la carpeta para montar rclone
+
+mkdir /home/plexcloud
+
+## El ultimo valor se puede cambiar por el nombre que tu quieras. 
+------------------------------
+## Monta la unidad de archivos en la nube.
+
+rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
+
+------------------------------
+## Si todo esta bien, al ejecutar este comando nos mostrara la lista de archivos en la nube
+
+ls /home/plexcloud
+
+-----------------------------
+## Estos comandos nos permitira que cada vez que la computadora se apague el sistema montara los archivos. 
+
+export EDITOR=nano
+crontab -e
+
+## Desplazamos hasta abajo, y copiamos esta linea 
+
+@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
+
+## Guardamos todo 
+
+---------------------------
+## Descarga el paquete para instalar Plex. 
+
+wget https://downloads.plex.tv/plex-media-server-new/1.29.2.6364-6d72b0cf6/debian/plexmediaserver_1.29.2.6364-6d72b0cf6_amd64.deb
+
+--------------------------
+## Instala Plex. 
+
+## Recuerda que la version y el nombre del archivo será el mismo desoues de la URL. Despues de esto "https://downloads.plex.tv/plex-media-server-new/1.29.2.6364-6d72b0cf6/debian/"
+
+dpkg -i plexmediaserver_1.29.2.6364-6d72b0cf6_amd64.deb
